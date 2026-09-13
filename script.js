@@ -12,17 +12,17 @@ function showIssue() {
 function showVerify() {
     document.getElementById("content").innerHTML =
         "<h2>Verify Certificate</h2>" +
-        "<input id='verifyId' placeholder='Certificate ID'>" +
-        "<br><br>" +
+        "<input id='verifyId' placeholder='Certificate ID'><br><br>" +
         "<button onclick='verifyCertificate()'>Verify Certificate</button>" +
         "<div id='result'></div>";
 }
 
 function generateRecord() {
-    var student = document.getElementById("studentName").value;
-    var id = document.getElementById("certificateId").value;
-    var course = document.getElementById("course").value;
-    var college = document.getElementById("college").value;
+
+    var student = document.getElementById("studentName").value.trim();
+    var id = document.getElementById("certificateId").value.trim();
+    var course = document.getElementById("course").value.trim();
+    var college = document.getElementById("college").value.trim();
 
     if (student == "" || id == "" || course == "" || college == "") {
         alert("Please fill all fields.");
@@ -41,8 +41,10 @@ function generateRecord() {
         timestamp: new Date().toLocaleString()
     };
 
+    // Save for manual verification on this browser
     localStorage.setItem(id, JSON.stringify(certificate));
 
+    // Create QR data
     var certificateData = btoa(JSON.stringify(certificate));
 
     document.getElementById("result").innerHTML =
@@ -70,6 +72,7 @@ function generateRecord() {
     document.getElementById("qrCode").appendChild(qr);
 }
 
+
 function verifyCertificate() {
 
     var id = document.getElementById("verifyId").value.trim();
@@ -81,7 +84,7 @@ function verifyCertificate() {
 
     var data = localStorage.getItem(id);
 
-    if (data != null) {
+    if (data) {
 
         var certificate = JSON.parse(data);
 
@@ -107,11 +110,13 @@ function verifyCertificate() {
     }
 }
 
+
 window.onload = function () {
 
     var params = new URLSearchParams(window.location.search);
     var encodedData = params.get("certificate");
 
+    // Only show automatic verification when QR data exists
     if (encodedData) {
 
         try {
@@ -137,6 +142,8 @@ window.onload = function () {
         }
 
     } else {
-        showVerify();
+
+        // Normal homepage
+        document.getElementById("content").innerHTML = "";
     }
 };
