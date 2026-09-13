@@ -1,108 +1,324 @@
-function showIssue() {
-    document.getElementById("content").innerHTML =
-        "<h2>Issue Certificate</h2>" +
-        "<input id='studentName' placeholder='Student Name'><br><br>" +
-        "<input id='certificateId' placeholder='Certificate ID'><br><br>" +
-        "<input id='course' placeholder='Course'><br><br>" +
-        "<input id='college' placeholder='College Name'><br><br>" +
-        "<button onclick='generateRecord()'>Generate Verification Record</button>" +
-        "<div id='result'></div>";
+* {
+    box-sizing: border-box;
 }
 
-function showVerify() {
-    document.getElementById("content").innerHTML =
-        "<h2>Verify Certificate</h2>" +
-        "<input id='verifyId' placeholder='Certificate ID'><br><br>" +
-        "<button onclick='verifyCertificate()'>Verify Certificate</button>" +
-        "<div id='result'></div>";
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1e293b;
 }
 
-function generateRecord() {
-    var student = document.getElementById("studentName").value;
-    var id = document.getElementById("certificateId").value;
-    var course = document.getElementById("course").value;
-    var college = document.getElementById("college").value;
+/* ================= HEADER ================= */
 
-    if (student == "" || id == "" || course == "" || college == "") {
-        alert("Please fill all fields.");
-        return;
+header {
+    background: #123c8c;
+    color: white;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    text-align: center;
+    padding: 70px 20px 45px;
+    background: white;
+}
+
+.hero h1 {
+    font-size: 45px;
+    margin-bottom: 15px;
+    color: #123c8c;
+    line-height: 1.2;
+}
+
+.hero h2 {
+    font-size: 24px;
+    font-weight: normal;
+    color: #334155;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #64748b;
+    max-width: 700px;
+    margin: 15px auto 25px;
+    line-height: 1.6;
+}
+
+/* ================= BUTTONS ================= */
+
+button {
+    background: #123c8c;
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    margin: 10px 5px;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+/* ================= CONTENT ================= */
+
+#content {
+    background: white;
+    width: 550px;
+    max-width: 90%;
+    margin: 35px auto;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+}
+
+#content h2 {
+    text-align: center;
+    color: #123c8c;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* ================= INPUTS ================= */
+
+input {
+    width: 90%;
+    padding: 13px;
+    margin: 7px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.10);
+}
+
+/* ================= RESULT ================= */
+
+#result {
+    background: white;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    text-align: left;
+    border-left: 5px solid #15803d;
+}
+
+#result h2 {
+    color: #15803d;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#result h3 {
+    text-align: center;
+    color: #123c8c;
+    margin-bottom: 20px;
+}
+
+#result p {
+    font-size: 16px;
+    margin: 0;
+    padding: 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    line-height: 1.4;
+}
+
+#result p:last-child {
+    border-bottom: none;
+}
+
+/* ================= INVALID RESULT ================= */
+
+#result h2.invalid {
+    color: #dc2626;
+}
+
+#result:has(h2.invalid) {
+    border-left-color: #dc2626;
+}
+
+/* ================= QR CODE ================= */
+
+#qrCode {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#qrCode img {
+    width: 180px;
+    height: 180px;
+    padding: 8px;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+}
+
+/* ================= WORKFLOW ================= */
+
+.workflow {
+    text-align: center;
+    padding: 55px 20px;
+}
+
+.workflow h2 {
+    color: #123c8c;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: white;
+    width: 210px;
+    min-height: 130px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+.step h3 {
+    color: #123c8c;
+    margin-bottom: 10px;
+}
+
+.step p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.arrow {
+    font-size: 30px;
+    font-weight: bold;
+    color: #123c8c;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    var hash = "BV-" + id + "-" + Date.now();
-
-    var certificate = {
-        student: student,
-        id: id,
-        course: course,
-        college: college,
-        hash: hash,
-        issueDate: new Date().toLocaleDateString(),
-        timestamp: new Date().toLocaleString()
-    };
-
-    localStorage.setItem(id, JSON.stringify(certificate));
-
-    var certificateData = btoa(JSON.stringify(certificate));
-
-    document.getElementById("result").innerHTML =
-        "<h3>Certificate Record Created</h3>" +
-        "<p>Certificate ID: " + id + "</p>" +
-        "<p>Blockchain Record: FOUND</p>" +
-        "<p>Certificate Hash: " + hash + "</p>" +
-        "<p>Block Number: #1024</p>" +
-        "<p>Verification Status: VERIFIED</p>" +
-        "<p>QR Code:</p>" +
-        "<div id='qrCode'></div>";
-
-    var qr = document.createElement("img");
-
-    var verificationURL =
-        window.location.origin +
-        window.location.pathname +
-        "?certificate=" +
-        encodeURIComponent(certificateData);
-
-    qr.src =
-        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
-        encodeURIComponent(verificationURL);
-
-    document.getElementById("qrCode").appendChild(qr);
-}
-
-function verifyCertificate() {
-
-    var params = new URLSearchParams(window.location.search);
-    var encodedData = params.get("certificate");
-
-    if (encodedData) {
-
-        try {
-            var certificate = JSON.parse(atob(encodedData));
-
-            document.getElementById("content").innerHTML =
-                "<h2>CERTIFICATE VERIFIED</h2>" +
-                "<div id='result'>" +
-                "<p>Student: " + certificate.student + "</p>" +
-                "<p>Course: " + certificate.course + "</p>" +
-                "<p>College: " + certificate.college + "</p>" +
-                "<p>Certificate ID: " + certificate.id + "</p>" +
-                "<p>Status: GENUINE</p>" +
-                "<p>Blockchain Record: FOUND</p>" +
-                "<p>Certificate Hash: " + certificate.hash + "</p>" +
-                "<p>Issue Date: " + certificate.issueDate + "</p>" +
-                "<p>Timestamp: " + certificate.timestamp + "</p>" +
-                "</div>";
-
-            return;
-
-        } catch (error) {
-            console.log(error);
-        }
+    .logo {
+        font-size: 24px;
     }
 
-    showVerify();
-}
+    nav {
+        text-align: center;
+    }
 
-window.onload = function () {
-    verifyCertificate();
-};
+    nav a {
+        margin: 0 7px;
+        font-size: 14px;
+    }
+
+    .hero {
+        padding: 40px 15px 30px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .hero h2 {
+        font-size: 20px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    #content {
+        width: 92%;
+        max-width: 92%;
+        padding: 22px;
+        margin: 25px auto;
+    }
+
+    input {
+        width: 100%;
+        margin: 6px 0;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 12px 18px;
+    }
+
+    #result {
+        padding: 18px;
+    }
+
+    #result p {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #qrCode img {
+        width: 160px;
+        height: 160px;
+    }
+
+    .workflow {
+        padding: 35px 15px;
+    }
+
+    .workflow h2 {
+        font-size: 26px;
+    }
+
+    .steps {
+        flex-direction: column;
+    }
+
+    .step {
+        width: 90%;
+    }
+
+    .arrow {
+        transform: rotate(90deg);
+    }
+}
